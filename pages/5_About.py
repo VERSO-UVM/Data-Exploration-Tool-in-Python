@@ -1,35 +1,40 @@
+
 """
 Ian Sargent
 ORCA
 Streamlit Data Visualization App
 
-Run this in the terminal to launch the app:
--------------------------------------------
-streamlit run Home.py
--------------------------------------------
-
+About Page
 """
 
-# Necessary imports
+
 import streamlit as st
-from streamlit_navigation_bar import st_navbar
-from app_utils import get_user_files
+import markdown
 
-
-def main():
-    # Set page configurations
-    st.set_page_config(
-        page_title="Vermont Livability App",
-        layout="wide",
-        page_icon="🍁"
-    )
-    
+def render_about():
     # Set the page title
     st.markdown(
-        "<h2 style='color: #4a4a4a; font-family: Helvetica; font-weight: 300;'>Vermont Livability: A Data Exploration App</h2>",
+        "<h2 style='color: #4a4a4a; font-family: Helvetica; font-weight: 300;'>About the Project</h2>",
         unsafe_allow_html=True)
 
-    # Display a background photo for the page
+    # Open the 'about.md' file and read its content
+    with open('/Users/iansargent/streamlit-data-app/pages/about.md', 'r', encoding='utf-8') as file:
+        about_content = file.read()
+        html_content = markdown.markdown(about_content)
+
+    # Display the 'about.md' content in a container 
+    with st.container():        
+        st.markdown(
+            f"""
+            <div class="custom-container">
+                <p>{html_content}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+def show_about():
+    # Set the global font settings and display a background image
     st.markdown(
         """
         <style>
@@ -56,7 +61,7 @@ def main():
 
         /* Custom container style */
         .custom-container {
-            background-color: whitesmoke;
+            background-color: cornsilk;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -67,21 +72,9 @@ def main():
         </style>
         """, unsafe_allow_html=True)
     
-    # Display the file uploader in the side panel
-    get_user_files()
-
-    navigation_placeholder = "Placeholder for app navigation / directions"
-
-    with st.container():        
-        st.markdown(
-            f"""
-            <div class="custom-container">
-                <p>{navigation_placeholder}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    # Show the about page
+    render_about()
 
 
 if __name__ == "__main__":
-    main()
+    show_about()
